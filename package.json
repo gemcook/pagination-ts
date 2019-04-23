@@ -2,7 +2,8 @@
   "name": "pagination-ts",
   "version": "1.0.0",
   "scripts": {
-    "start": "nodemon"
+    "start": "nodemon",
+    "build": "tsc"
   },
   "dependencies": {
     "express": "^4.16.4",
