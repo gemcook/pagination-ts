@@ -13,6 +13,7 @@ export const getFruitsPaging = (req: Request, res: Response, next: NextFunction)
 
   res.setHeader('X-Total-Count', totalCount);
   res.setHeader('X-Total-Pages', totalPages);
+  
   res.json({pages});
 }
 

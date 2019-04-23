@@ -13,10 +13,10 @@ import {
 } from './'
 
 export const getPages = <T, U>(pager: Pager<T, U>): any => {
-  const count = pager.fetcher.count(pager.condition);
+  const count: number = pager.fetcher.count(pager.condition);
   pager.totalCount = count;
 
-  const pageCount = getPageCount(pager);
+  const pageCount: number = getPageCount(pager);
   if (pageCount === 0) {
     return formatResponse([], [], [], pager);
   }
@@ -27,15 +27,15 @@ export const getPages = <T, U>(pager: Pager<T, U>): any => {
 
   // activeとsidesに相当する範囲をまとめて取得する
   const {limit, offset} = getActiveAndSidesLimit(pager);
-  const activeAndSides = pager.fetcher.fetchPage(pager.condition, limit, offset, pager.orders);
+  const activeAndSides: Array<U> = pager.fetcher.fetchPage(pager.condition, limit, offset, pager.orders);
 
   // 最初のページが範囲外の場合は取得する
-  const first = startPageIndex(pager) > 0
+  const first: Array<U> = startPageIndex(pager) > 0
     ? pager.fetcher.fetchPage(pager.condition, pager.limit, 0, pager.orders)
     : [];
   
   // 最後のページが範囲外の場合は取得する
-  const last = startPageIndex(pager) + (pager.sidePagingCount * 2) < lastPageIndex(pager)
+  const last: Array<U> = startPageIndex(pager) + (pager.sidePagingCount * 2) < lastPageIndex(pager)
     ? pager.fetcher.fetchPage(
         pager.condition,
         pager.limit,

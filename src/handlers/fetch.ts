@@ -6,19 +6,28 @@ import {newPager, getPages, getPageCount} from './'
  * @param {Fetcher<T, U>} fetcher fetcher関数を渡す
  * @param {Setting<T>} setting limit, page, cond, ordersを渡す
 */
-export const fetch = <T, U>(fetcher: Fetcher<T, U>, setting: Setting<T>)
-: {totalCount: number, pageCount: number, res: any} => {
+export const fetch = <T, U>(fetcher: Fetcher<T, U>, setting: Setting<T>) => {
   const pager: Pager<T, U> = newPager(fetcher, setting);
 
   if (pager === null) {
-    return {totalCount: 0, pageCount: 0, res: null};
+    return {totalCount: 0, totalPages: 0, res: null};
   }
 
   const res: any = getPages(pager);
 
+  const response: any = {
+    active: res['active'],
+    first: res['first'],
+    last: res['last'],
+    before_distant: res['before_distant'],
+    before_near: res['before_near'],
+    after_near: res['after_near'],
+    after_distant: res['after_distant'],
+  };
+
   return {
     totalCount: pager.totalCount,
-    pageCount: getPageCount(pager),
-    res,
+    totalPages: getPageCount(pager),
+    pages: response,
   };
 };

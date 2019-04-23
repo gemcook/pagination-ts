@@ -3,6 +3,7 @@ export {parseQuery} from './parseQuery';
 export {parseSort} from './parseSort';
 export {parseOrders} from './parseOrders'
 
+// Fetch以下の関数
 export {fetch} from './fetch';
 export {newPager} from './newPager';
 export {getPages} from './getPages';

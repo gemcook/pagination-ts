@@ -65,8 +65,12 @@ export const formatResponse = <T, U>(
   responsePage['last'] = last;
 
   for (let i = 0; i < sides.length; i++) {
-    const pageName = getPageName(i);
+    const pageName: string = getPageName(i);
     responsePage[pageName] = sides[i];
+  }
+
+  if (last.length === 0) {
+    responsePage['last'] = responsePage['before_distant'];
   }
 
   return responsePage;
