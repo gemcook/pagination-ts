@@ -6,4 +6,4 @@ export class Order {
 
   direction: string;
   columnName: string;
-};
+}

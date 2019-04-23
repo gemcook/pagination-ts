@@ -5,4 +5,4 @@ export class Setting {
   page: number;
   cond: any;
   orders: Order[];
-};
+}

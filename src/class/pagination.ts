@@ -3,8 +3,8 @@ import {string, number, cond} from '../utils';
 
 type fetcher<T, U> = {
   count(cond: T): number;
-  fetchPage(cond: T, limit: number, offset: number, orders: Order[]): Array<U>
-}
+  fetchPage(cond: T, limit: number, offset: number, orders: Order[]): Array<U>;
+};
 
 export class Pagination {
   limit: number;
@@ -17,7 +17,7 @@ export class Pagination {
 
   /**
    * paginationパラメータの初期値をセットする関数
-  */
+   */
   init() {
     this.limit = 10;
     this.page = 1;
@@ -27,12 +27,12 @@ export class Pagination {
   /**
    * 最初のページ番号を取得する
    * @return {number}
-  */
-  startPageIndex(): number{
-    let startPageIndex = (this.page - 1) - this.sidePagingCount;
+   */
+  startPageIndex(): number {
+    let startPageIndex = this.page - 1 - this.sidePagingCount;
 
     // 最終ページを含む場合は取得開始位置を調整する
-    const endPageIndex = startPageIndex + (this.sidePagingCount * 2);
+    const endPageIndex = startPageIndex + this.sidePagingCount * 2;
     if (endPageIndex > this.lastPageIndex()) {
       startPageIndex = startPageIndex - (endPageIndex - this.lastPageIndex());
     }
@@ -44,10 +44,10 @@ export class Pagination {
     return startPageIndex;
   }
 
-  /** 
+  /**
    * 最後のページ番号を取得する
    * @return {number}
-  */
+   */
   lastPageIndex(): number {
     if (this.totalCount < 1 || this.limit === 0) {
       return 0;
@@ -57,10 +57,10 @@ export class Pagination {
     const lastPageIndex = Math.ceil((this.totalCount - 1) / this.limit);
     return lastPageIndex;
   }
-  
+
   /**
    * ページ数のレコード数とオフセットを取得します
-  */
+   */
   getActiveAndSidesLimit() {
     // start record index of side pages chunk
     let offset = this.startPageIndex() * this.limit;
@@ -69,7 +69,7 @@ export class Pagination {
     }
 
     // data record limit of side pages chunk
-    let limit = ( (this.sidePagingCount * 2) + 1) * this.limit;
+    let limit = (this.sidePagingCount * 2 + 1) * this.limit;
     if (limit > this.totalCount) {
       limit = this.totalCount;
     }
@@ -80,7 +80,7 @@ export class Pagination {
   /**
    * ページの総数を取得します
    * @return {number} ページの総数を返します
-  */
+   */
   getPageCount(): number {
     if (this.limit === 0) {
       return 0;
@@ -89,15 +89,15 @@ export class Pagination {
     return count;
   }
 
-  /** 
+  /**
    * Fetch returns paging response using arbitary record fetcher
-  */
+   */
   fetch<T, U>(fetcher: fetcher<T, U>, setting: Setting) {
     const pager = this.newPager(fetcher, setting);
     if (pager === null) {
       return {totalCount: 0, totalPages: 0, res: null};
     }
-    const res = pager.getPages()
+    const res = pager.getPages();
     if (res === null) {
       return {totalCount: 0, totalPages: 0, res: null};
     }
@@ -115,13 +115,13 @@ export class Pagination {
     return {
       totalCount: pager.totalCount,
       totalPages: pager.getPageCount(),
-      pages: response
+      pages: response,
     };
   }
 
   /**
-   * 
-  */
+   *
+   */
   newPager<T, U>(fetcher: fetcher<T, U>, setting: Setting) {
     this.init();
     this.fetcher = fetcher;
@@ -147,9 +147,9 @@ export class Pagination {
     return this;
   }
 
-  /** 
+  /**
    * getPages gets formated paging response
-  */
+   */
   getPages() {
     const count = this.fetcher.count(this.condition);
     this.totalCount = count;
@@ -165,27 +165,43 @@ export class Pagination {
 
     // activeとsidesに相当する範囲をまとめて取得する
     const {limit, offset} = this.getActiveAndSidesLimit();
-    const activeAndSides = this.fetcher.fetchPage(this.condition, limit, offset, this.orders);
+    const activeAndSides = this.fetcher.fetchPage(
+      this.condition,
+      limit,
+      offset,
+      this.orders
+    );
 
     // 最初のページが範囲外の場合は取得する
-    const first = this.startPageIndex() > 0
-      ? this.fetcher.fetchPage(this.condition, this.limit, 0, this.orders)
-      : [];
+    const first =
+      this.startPageIndex() > 0
+        ? this.fetcher.fetchPage(this.condition, this.limit, 0, this.orders)
+        : [];
 
     // 最後のページが範囲外の場合は取得する
-    const last = (this.startPageIndex() + (this.sidePagingCount * 2) < this.lastPageIndex())
-      ? this.fetcher.fetchPage(this.condition, this.limit, (this.lastPageIndex() * this.limit), this.orders)
-      : [];
+    const last =
+      this.startPageIndex() + this.sidePagingCount * 2 < this.lastPageIndex()
+        ? this.fetcher.fetchPage(
+            this.condition,
+            this.limit,
+            this.lastPageIndex() * this.limit,
+            this.orders
+          )
+        : [];
     return this.formatResponse(first, activeAndSides, last);
   }
-  
-  /** 
+
+  /**
    * FormatResponse
    * @param {Array<any>} first
    * @param {Array<any>} activeAndSides
    * @param {Array<any>} last
-  */
-  formatResponse(first: Array<any>, activeAndSides: Array<any>, last: Array<any>) {
+   */
+  formatResponse(
+    first: Array<any>,
+    activeAndSides: Array<any>,
+    last: Array<any>
+  ) {
     let active = [];
     const sidesLen = this.sidePagingCount * 2;
     let sides = [];
@@ -216,7 +232,7 @@ export class Pagination {
       }
 
       // fill the last, if the chunk data has the last page
-      if ((this.lastPageIndex() + 1) === page) {
+      if (this.lastPageIndex() + 1 === page) {
         last.push(activeAndSides[index]);
       }
 
@@ -228,7 +244,6 @@ export class Pagination {
           pageIndex++;
         }
       }
-
     }
 
     // name pages
@@ -252,8 +267,8 @@ export class Pagination {
   /**
    * クエリーパラメータを分解する
    * @param {object} queryStr クエリーパラメータ
-   * @return {Query} 
-  */
+   * @return {Query}
+   */
   parseQuery(queryStr: object): Query {
     const p = new Query(30, 1, true);
     const query = queryStr;
@@ -285,7 +300,7 @@ export class Pagination {
   /**
    * @param {object} queryStr クエリーパラメータ
    * @return {Order[]}
-  */
+   */
   parseSort(queryStr: object): Order[] {
     const query = queryStr;
 
@@ -302,7 +317,7 @@ export class Pagination {
   /**
    * @param {string} sort ソートパラメーター
    * @return {Order[]}
-  */
+   */
   parseOrders(sort: string): Order[] {
     if (sort === '') {
       return;
@@ -313,14 +328,10 @@ export class Pagination {
 
     for (let i = 0; i < sort.length; i++) {
       sortStr += sort[i];
-      const nextChar = i + 1 < sort.length
-        ? sort[i+1]
-        : ' ';
+      const nextChar = i + 1 < sort.length ? sort[i + 1] : ' ';
       if (cond.nextChar(nextChar)) {
         const column = sortStr.slice(1);
-        const direction = cond.isPlusMinux(sortStr[0])
-          ? 'ASC'
-          : 'DESC'
+        const direction = cond.isPlusMinux(sortStr[0]) ? 'ASC' : 'DESC';
         const order = new Order(direction, column);
         orders.push(order);
         sortStr = '';
@@ -332,9 +343,9 @@ export class Pagination {
 
   /**
    * ページの名前を返す
-  */
+   */
   getPageName(i: number) {
-    switch(i) {
+    switch (i) {
       case 0:
         return 'before_distant';
       case 1:
@@ -347,6 +358,4 @@ export class Pagination {
         return number.toString(i);
     }
   }
-
-
-};
+}
