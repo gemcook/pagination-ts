@@ -1,0 +1,1 @@
+export {fruitsHandler} from './fruits';
