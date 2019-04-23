@@ -1,5 +1,5 @@
 import {Order, Query, Setting, fetcher} from './';
-import {string, number, cond} from '../utils';
+import {string, cond} from '../utils';
 
 export class Pagination {
   public limit: number = 0;
@@ -8,7 +8,7 @@ export class Pagination {
   public totalCount: number = 0;
   public orders: Order[] = [];
   public condition: any;
-  public fetcher: fetcher<any, any>;
+  public fetcher: fetcher<any, any>|any;
 
   /**
    * paginationパラメータの初期値をセットする関数
@@ -92,7 +92,7 @@ export class Pagination {
     if (pager === null) {
       return {totalCount: 0, totalPages: 0, res: null};
     }
-    const res = pager.getPages();
+    const res: any = pager.getPages();
     if (res === null) {
       return {totalCount: 0, totalPages: 0, res: null};
     }
@@ -197,9 +197,9 @@ export class Pagination {
     activeAndSides: Array<any>,
     last: Array<any>
   ) {
-    let active = [];
-    const sidesLen = this.sidePagingCount * 2;
-    let sides = [];
+    let active: any = [];
+    const sidesLen: number = this.sidePagingCount * 2;
+    let sides: any = [];
 
     for (let i = 0; i < sidesLen; i++) {
       sides.push([]);
@@ -242,13 +242,13 @@ export class Pagination {
     }
 
     // name pages
-    const responsePage = [];
+    const responsePage: any = [];
     responsePage['active'] = active;
     responsePage['first'] = first;
     responsePage['last'] = last;
 
     for (var i = 0; i < sides.length; i++) {
-      const pageName = this.getPageName(i);
+      const pageName: string = this.getPageName(i);
       responsePage[pageName] = sides[i];
     }
 
@@ -266,7 +266,7 @@ export class Pagination {
    */
   parseQuery(queryStr: object): Query {
     const p = new Query(30, 1, true);
-    const query = queryStr;
+    const query: any = queryStr;
 
     if (query.hasOwnProperty('limit')) {
       const limit = string.toNumber(query['limit']);
@@ -297,7 +297,7 @@ export class Pagination {
    * @return {Order[]}
    */
   parseSort(queryStr: object): Order[] {
-    const query = queryStr;
+    const query: any = queryStr;
 
     if (query.hasOwnProperty('sort')) {
       const sort = query['sort'];
@@ -315,7 +315,7 @@ export class Pagination {
    */
   parseOrders(sort: string): Order[] {
     if (sort === '') {
-      return;
+      return [];
     }
 
     const orders = [];
@@ -339,7 +339,7 @@ export class Pagination {
   /**
    * ページの名前を返す
    */
-  getPageName(i: number) {
+  getPageName(i: number): string {
     switch (i) {
       case 0:
         return 'before_distant';
@@ -350,7 +350,7 @@ export class Pagination {
       case 3:
         return 'after_distant';
       default:
-        return number.toString(i);
+        return i.toString();
     }
   }
 }

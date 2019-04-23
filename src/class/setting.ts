@@ -1,8 +1,8 @@
 import {Order} from './';
 
 export class Setting {
-  limit: number;
-  page: number;
+  public limit: number = 0;
+  public page: number = 0;
   cond: any;
-  orders: Order[];
+  public orders: Order[] = [];
 }
