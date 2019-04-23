@@ -1,4 +1,9 @@
 {
+  "name": "pagination-ts",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "nodemon"
+  },
   "dependencies": {
     "express": "^4.16.4",
     "lodash": "^4.17.11"
@@ -14,5 +19,9 @@
     "eslint": "^5.16.0",
     "ts-node": "^8.1.0",
     "typescript": "^3.4.3"
-  }
+  },
+  "repository": "https://github.com/gemcook/pagination-ts.git",
+  "author": "gcshiro <s.shirota@gemcook.com>",
+  "license": "MIT",
+  "main": "index.js"
 }

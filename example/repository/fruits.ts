@@ -3,7 +3,6 @@ import {Pagination} from '../../src';
 import {fetcher, fruitCondition, order} from '../types';
 import {Fruit} from '../model';
 
- 
 /** 
  * 全件取得
 */
@@ -16,7 +15,7 @@ const getAll = () => {
  * @param {query} クエリーパラメータ
 */
 const getPaging = (query: object) => {
-  const pagination = new Pagination()
+  const pagination = new Pagination();
   const p = pagination.parseQuery(query);
 
   // 条件を作成
@@ -37,6 +36,7 @@ const getPaging = (query: object) => {
   };
   const cond = parseFruitCondition(query);
 
+  // fetcher関数を作成する
   const fruitsFetch: fetcher<fruitCondition, Fruit> = {
     count: (cond: fruitCondition): number => {
       const result = Fruits.filter(fruit => {
@@ -66,7 +66,7 @@ const getPaging = (query: object) => {
 
       return newFruits;
     }
-  }
+  };
 
   const data = pagination.fetch(fruitsFetch, {
     limit: p.limit,
