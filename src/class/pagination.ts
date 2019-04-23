@@ -1,19 +1,14 @@
-import {Order, Query, Setting} from './';
+import {Order, Query, Setting, fetcher} from './';
 import {string, number, cond} from '../utils';
 
-type fetcher<T, U> = {
-  count(cond: T): number;
-  fetchPage(cond: T, limit: number, offset: number, orders: Order[]): Array<U>;
-};
-
 export class Pagination {
-  limit: number;
-  page: number;
-  sidePagingCount: number;
-  totalCount: number;
-  orders: Order[];
-  condition: any;
-  fetcher: fetcher<any, any>;
+  public limit: number = 0;
+  public page: number = 0;
+  public sidePagingCount: number = 2;
+  public totalCount: number = 0;
+  public orders: Order[] = [];
+  public condition: any;
+  public fetcher: fetcher<any, any>;
 
   /**
    * paginationパラメータの初期値をセットする関数

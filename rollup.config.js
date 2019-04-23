@@ -1,6 +1,7 @@
 const {rollup} = require('rollup');
+const babel = require('rollup-plugin-babel');
 const resolve = require('rollup-plugin-node-resolve');
-const resolvePath = require('./utils/resolvePath');
+const commonjs = require('rollup-plugin-commonjs');
 
 const extensions = ['.mjs', '.js', '.jsx', '.json', '.ts', '.tsx'];
 

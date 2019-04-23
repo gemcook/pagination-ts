@@ -9,3 +9,11 @@ tsc:
 
 lint:
 	./node_modules/.bin/eslint src/ --ext .ts,.tsx,.js,.jsx
+
+
+# build用途
+lib-clean:
+	rm -rf ./lib/
+
+lib-build:
+	node ./rollup.config.js
