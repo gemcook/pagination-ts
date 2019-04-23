@@ -12,6 +12,7 @@ const nextChar = (cond: string): boolean => {
       return false;
   }
 };
+
 /**
  * @param {string} cond + または, -を受け取る
  * @return {boolean}
