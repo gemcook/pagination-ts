@@ -1,7 +1,8 @@
 import {Order} from './';
 
-export type Query = {
+export type Setting<T> = {
   limit: number;
   page: number;
-  sort: Order[];
+  cond: T;
+  orders: Order[];
 };
