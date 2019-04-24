@@ -1,4 +1,4 @@
-import {Order} from './';
+import {Order} from './order';
 
 export type Setting<T> = {
   limit: number;

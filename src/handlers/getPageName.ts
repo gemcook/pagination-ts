@@ -1,4 +1,4 @@
-import {toString} from 'lodash';
+import _ from 'lodash';
 
 /**
  * getPageName returns named page
@@ -16,6 +16,6 @@ export const getPageName = (index: number): string => {
     case 3:
       return 'after_distant';
     default:
-      return toString(index);
+      return _.toString(index);
   };
 };

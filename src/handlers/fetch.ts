@@ -1,5 +1,7 @@
 import {Fetcher, Setting, Pager} from '../@types';
-import {newPager, getPages, getPageCount} from './'
+import {newPager} from './newPager';
+import {getPages} from './getPages';
+import {getPageCount} from './getPageCount';
 
 /** 
  * fetch returns paging response using arbitary record fetcher

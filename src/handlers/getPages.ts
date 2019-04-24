@@ -1,5 +1,5 @@
 import {Pager} from '../@types';
-import {formatResponse} from './';
+import {formatResponse} from './formatResponse';
 
 /**
  * getPages gets formated paging response

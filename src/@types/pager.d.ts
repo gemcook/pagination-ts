@@ -1,4 +1,5 @@
-import {Fetcher, Order} from './';
+import {Order} from './order';
+import {Fetcher} from './fetcher';
 
 export type Pager<T, U> = {
   limit: number;

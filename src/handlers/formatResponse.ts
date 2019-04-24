@@ -1,9 +1,7 @@
 import {Pager} from '../@types'
-import {
-  startPageIndex,
-  lastPageIndex,
-  getPageName,
-} from './';
+import {startPageIndex} from './startPageIndex';
+import {lastPageIndex} from './lastPageIndex';
+import {getPageName} from './getPageName';
 
 /**
  * formatResponse ページネーション用responseを作成する
