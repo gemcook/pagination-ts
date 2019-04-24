@@ -1,4 +1,4 @@
-import {Order} from './';
+import {Order} from './order';
 
 export class Setting {
   public limit: number = 0;

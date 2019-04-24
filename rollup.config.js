@@ -1,34 +1,60 @@
-const {rollup} = require('rollup');
 const babel = require('rollup-plugin-babel');
 const resolve = require('rollup-plugin-node-resolve');
 const commonjs = require('rollup-plugin-commonjs');
 
-const extensions = ['.mjs', '.js', '.jsx', '.json', '.ts', '.tsx'];
-
-rollup({
-  input: 'src/index.ts',
-  plugins: [
-    babel({
-      extensions,
-      exclude: '**/node_modules/**',
-      runtimeHelpers: true,
-    }),
-    resolve({
-      extensions,
-      preferBuiltins: false,
-    }),
-    commonjs({
-      include: 'node_modules/**',
-    }),
+const extensions = ['.mjs', '.js', '.json', '.ts'];
+const babelOptions = {
+  extensions,
+  exclude: '**/node_modules/**',
+  runtimeHelpers: true,
+  babelrc: false,
+  presets: [
+    [
+      '@babel/preset-env',
+      {
+        targets: {node: 'current'},
+        corejs: 3,
+        useBuiltIns: 'usage',
+        loose: true,
+        modules: false,
+      },
+    ],
+    '@babel/preset-typescript',
   ],
-})
-  .then(bundle => {
-    bundle.write({
-      format: 'umd',
+  plugins: [
+    [
+      '@babel/plugin-transform-runtime',
+      {
+        corejs: 3,
+        regenerator: false,
+        useESModules: false,
+      },
+    ],
+    ['@babel/proposal-class-properties', {loose: true}],
+    ['@babel/plugin-proposal-private-methods', {loose: true}],
+  ],
+};
+
+export default [
+  {
+    input: 'src/index.ts',
+    external: [
+      '@babel/runtime-corejs3/core-js-stable/parse-int',
+      '@babel/runtime-corejs3/core-js-stable/instance/slice',
+    ],
+
+    output: {
       file: './lib/index.js',
-      name: '@gemcook/pagination-ts',
-    });
-  })
-  .catch(e => {
-    console.error(e);
-  });
+      format: 'cjs',
+    },
+    plugins: [
+      babel(babelOptions),
+      resolve({
+        extensions,
+      }),
+      commonjs({
+        include: 'node_modules/**',
+      }),
+    ],
+  },
+];

@@ -1,4 +1,4 @@
-import {Order} from './';
+import {Order} from './order';
 
 export class Query {
   constructor(limit: number, page: number, enabled: boolean) {

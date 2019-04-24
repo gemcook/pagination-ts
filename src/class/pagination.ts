@@ -1,4 +1,7 @@
-import {Order, Query, Setting, fetcher} from './';
+import {fetcher} from './fetcher';
+import {Order} from './order';
+import {Query} from './query';
+import {Setting} from './setting';
 import {string, cond} from '../utils';
 
 export class Pagination {
@@ -8,7 +11,7 @@ export class Pagination {
   public totalCount: number = 0;
   public orders: Order[] = [];
   public condition: any;
-  public fetcher: fetcher<any, any>|any;
+  public fetcher: fetcher<any, any> | any;
 
   /**
    * paginationパラメータの初期値をセットする関数

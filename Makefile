@@ -16,4 +16,5 @@ lib-clean:
 	rm -rf ./lib/
 
 lib-build:
-	node ./rollup.config.js
+	$(MAKE) lib-clean
+	yarn run rollup --config
