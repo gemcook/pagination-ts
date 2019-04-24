@@ -19,7 +19,7 @@ const getPaging = (query: object) => {
   const p = pagination.parseQuery(query);
 
   // 条件を作成
-  const parseFruitCondition = (query: object) => {
+  const parseFruitCondition = (query: any) => {
     if (query.hasOwnProperty('price_range')) {
       const priceStr = query['price_range'];
       if (priceStr !== '') {

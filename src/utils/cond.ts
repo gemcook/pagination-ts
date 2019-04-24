@@ -23,6 +23,7 @@ const isPlusMinux = (cond: string): boolean => {
   } else if (cond === '-') {
     return false;
   }
+  return false;
 }
 
 export const cond = {

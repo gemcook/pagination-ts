@@ -9,6 +9,6 @@ export class Query {
 
   limit: number;
   page: number;
-  sort: Order[];
+  public sort: Order[] = [];
   enabled: boolean;
 }
