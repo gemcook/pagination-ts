@@ -1,5 +1,5 @@
 import { Pager } from "../@types";
-import {lastPageIndex} from './'
+import {lastPageIndex} from './lastPageIndex';
 
 /**
  * startPageIndex　は最初のページ番号を取得する

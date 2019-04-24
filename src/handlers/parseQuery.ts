@@ -1,5 +1,5 @@
 import { Query } from "../@types";
-import {parseInt} from 'lodash'
+import _ from 'lodash'
 import { parseSort } from "./";
 
 /** 
@@ -25,7 +25,7 @@ export const parseQuery = (query: any): Query => {
   }
 
   if (queryStr.hasOwnProperty('page')) {
-    const pageStr: number = parseInt(queryStr['page']);
+    const pageStr: number = _.parseInt(queryStr['page']);
     if (typeof pageStr !== 'number') {
       throw new Error();
     }

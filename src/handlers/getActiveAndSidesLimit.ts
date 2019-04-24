@@ -1,5 +1,5 @@
 import { Pager } from "../@types";
-import {startPageIndex} from './'
+import {startPageIndex} from './startPageIndex'
 
 /**
  * getActiveAndSidesLimit gets records count and offset of page chunk

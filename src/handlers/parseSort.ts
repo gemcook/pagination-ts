@@ -1,5 +1,5 @@
 import { Order } from "../@types";
-import {parseOrders} from './'
+import {parseOrders} from './parseOrders'
 
 /**
  * parseSort はソート条件を取得する
