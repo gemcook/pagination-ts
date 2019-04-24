@@ -1,6 +1,10 @@
 {
-  "name": "pagination-ts",
+  "name": "@gemcook/pagination-ts",
   "version": "0.1.0",
+  "repository": "https://github.com/gemcook/pagination-ts.git",
+  "author": "Gemcook, Inc. <tech@gemcook.com>",
+  "license": "MIT",
+  "main": "index.js",
   "scripts": {
     "start": "nodemon",
     "build": "tsc"
@@ -35,9 +39,5 @@
     "rollup-plugin-node-resolve": "^4.2.3",
     "ts-node": "^8.1.0",
     "typescript": "^3.4.5"
-  },
-  "repository": "https://github.com/gemcook/pagination-ts.git",
-  "author": "gcshiro <s.shirota@gemcook.com>",
-  "license": "MIT",
-  "main": "index.js"
+  }
 }
