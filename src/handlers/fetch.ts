@@ -3,11 +3,11 @@ import {newPager} from './newPager';
 import {getPages} from './getPages';
 import {getPageCount} from './getPageCount';
 
-/** 
+/**
  * fetch returns paging response using arbitary record fetcher
  * @param {Fetcher<T, U>} fetcher fetcher関数を渡す
  * @param {Setting<T>} setting limit, page, cond, ordersを渡す
-*/
+ */
 export const fetch = <T, U>(fetcher: Fetcher<T, U>, setting: Setting<T>) => {
   const pager: Pager<T, U> = newPager(fetcher, setting);
 

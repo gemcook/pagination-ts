@@ -4,9 +4,9 @@ import _ from 'lodash';
  * getPageName returns named page
  * @param {number} index インデックス
  * @return {string}
-*/
+ */
 export const getPageName = (index: number): string => {
-  switch(index) {
+  switch (index) {
     case 0:
       return 'before_distant';
     case 1:
@@ -17,5 +17,5 @@ export const getPageName = (index: number): string => {
       return 'after_distant';
     default:
       return _.toString(index);
-  };
+  }
 };

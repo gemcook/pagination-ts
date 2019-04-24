@@ -1,4 +1,4 @@
-import {Pager} from '../@types'
+import {Pager} from '../@types';
 import {startPageIndex} from './startPageIndex';
 import {lastPageIndex} from './lastPageIndex';
 import {getPageName} from './getPageName';
@@ -8,7 +8,7 @@ import {getPageName} from './getPageName';
  * @param {Array<U>} first ページの最初の要素
  * @param {Array<U>} activeAndSides ページの中間要素
  * @param {Array<U>} last ページの最後の要素
-*/
+ */
 export const formatResponse = <T, U>(
   first: Array<U>,
   activeAndSides: Array<U>,
@@ -34,7 +34,7 @@ export const formatResponse = <T, U>(
 
     // fill the side pages sequentially
     if (page !== pager.page) {
-      sides[pageIndex].push(activeAndSides[i])
+      sides[pageIndex].push(activeAndSides[i]);
     }
 
     // fill the first, if the chunk data has the first page
@@ -43,7 +43,7 @@ export const formatResponse = <T, U>(
     }
 
     // fill the last, if the chunk data has the last page
-    if ((lastPageIndex(pager) +1 ) === page) {
+    if (lastPageIndex(pager) + 1 === page) {
       last.push(activeAndSides[i]);
     }
 
@@ -72,4 +72,4 @@ export const formatResponse = <T, U>(
   }
 
   return responsePage;
-}
+};
