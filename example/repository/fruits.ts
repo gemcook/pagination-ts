@@ -14,18 +14,18 @@ const getAll = () => {
  * ページネーション用レポジトリ_フルーツを取得します
  * @param {query} クエリーパラメータ
 */
-const getPaging = (query: object) => {
-  const pagination = new Pagination();
+const getPaging = (query: any) => {
+  const pagination = Pagination;
   const p = pagination.parseQuery(query);
 
   // 条件を作成
   const parseFruitCondition = (query: any) => {
     if (query.hasOwnProperty('price_range')) {
-      const priceStr = query['price_range'];
+      const priceStr: string = query['price_range'];
       if (priceStr !== '') {
-        const prices = priceStr.split(',');
-        const low = parseInt(prices[0]);
-        const high = parseInt(prices[1]);
+        const prices: any = priceStr.split(',');
+        const low: number = parseInt(prices[0]);
+        const high: number = parseInt(prices[1]);
 
         return {low, high};
       }
@@ -44,6 +44,7 @@ const getPaging = (query: object) => {
       });
       return result.length;
     },
+    
     fetchPage: (
       cond: fruitCondition,
       limit: number,

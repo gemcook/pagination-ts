@@ -1,8 +1,5 @@
-start-example:
+start:
 	yarn start
-
-build:
-	yarn build
 
 tsc:
 	./node_modules/typescript/bin/tsc --noemit

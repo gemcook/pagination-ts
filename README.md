@@ -3,7 +3,7 @@
 ## Example
 
 ```
-make start-example
+make start
 ```
 
 # Usage
@@ -36,7 +36,7 @@ function parseFruitCondition(query) {
   // 
 }
 
-const pagination = new Pagination();
+const pagination = Pagination;
 const p = pagintion.parseQuery(req.query);
 const cond = parseFruitCondition(req.query)
 
