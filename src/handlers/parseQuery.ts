@@ -1,6 +1,6 @@
 import {Query} from '../@types';
 import _ from 'lodash';
-import {parseSort} from './';
+import {parseSort} from './parseSort';
 
 /**
  * parseQuery は クエリーパラメータを分解する

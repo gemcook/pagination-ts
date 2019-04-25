@@ -9,7 +9,7 @@ import {getPageCount} from './getPageCount';
  * @param {Setting<T>} setting limit, page, cond, ordersを渡す
  */
 export const fetch = <T, U>(fetcher: Fetcher<T, U>, setting: Setting<T>) => {
-  const pager: Pager<T, U> = newPager(fetcher, setting);
+  const pager: Pager<T, U>|null = newPager(fetcher, setting);
 
   if (pager === null) {
     return {totalCount: 0, totalPages: 0, res: null};

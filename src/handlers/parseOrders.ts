@@ -1,4 +1,5 @@
 import {Order} from '../@types';
+
 /**
  * parseOrders は ソート条件を分解する
  * @param {string} sort ソート文字列
