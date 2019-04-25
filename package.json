@@ -1,6 +1,6 @@
 {
   "name": "@gemcook/pagination-ts",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "repository": "https://github.com/gemcook/pagination-ts.git",
   "author": "Gemcook, Inc. <tech@gemcook.com>",
   "license": "MIT",
