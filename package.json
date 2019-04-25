@@ -6,6 +6,10 @@
   "license": "MIT",
   "main": "./lib/index.js",
   "types": "./lib/@types/index.d.ts",
+  "files": [
+    "lib",
+    "README.md"
+  ],
   "scripts": {
     "start": "nodemon",
     "build": "tsc"
