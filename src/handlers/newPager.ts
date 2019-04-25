@@ -9,7 +9,7 @@ import {Fetcher, Setting, Pager} from '../@types';
 export const newPager = <T, U>(
   fetcher: Fetcher<T, U>,
   setting: Setting<T>
-): Pager<T, U>|null => {
+): Pager<T, U> | null => {
   const pager: Pager<T, U> = {
     limit: 10,
     page: 1,

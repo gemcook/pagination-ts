@@ -1,9 +1,9 @@
 import {Pager} from '../@types';
 import {formatResponse} from './formatResponse';
 import {getActiveAndSidesLimit} from './getActiveAndSidesLimit';
-import {getPageCount} from './getPageCount'
+import {getPageCount} from './getPageCount';
 import {startPageIndex} from './startPageIndex';
-import {lastPageIndex}from './lastPageIndex'
+import {lastPageIndex} from './lastPageIndex';
 
 /**
  * getPages gets formated paging response
