@@ -5,7 +5,7 @@
   "author": "Gemcook, Inc. <tech@gemcook.com>",
   "license": "MIT",
   "main": "./lib/index.js",
-  "types": "./lib/@types",
+  "types": "./lib/@types/index.d.ts",
   "scripts": {
     "start": "nodemon",
     "build": "tsc"
