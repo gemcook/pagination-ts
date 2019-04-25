@@ -1,3 +1,4 @@
+const fs = require('fs-extra');
 const babel = require('rollup-plugin-babel');
 const resolve = require('rollup-plugin-node-resolve');
 const commonjs = require('rollup-plugin-commonjs');
@@ -42,12 +43,25 @@ export default [
       '@babel/runtime-corejs3/core-js-stable/parse-int',
       '@babel/runtime-corejs3/core-js-stable/instance/slice',
     ],
-
     output: {
       file: './lib/index.js',
       format: 'cjs',
     },
     plugins: [
+      {
+        name: 'rollup hooks',
+        buildStart: () => {
+          fs.emptyDirSync('./lib');
+        },
+        buildEnd: err => {
+          if (err) {
+            return;
+          }
+          fs.copySync('./src/@types', './lib/@types', {
+            dereference: true,
+          });
+        },
+      },
       babel(babelOptions),
       resolve({
         extensions,
