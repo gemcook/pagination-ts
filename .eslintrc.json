@@ -1,9 +1,5 @@
 {
-  "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:prettier/recommended"
-  ],
+  "extends": ["eslint:recommended", "plugin:prettier/recommended"],
   "plugins": ["@typescript-eslint"],
   "parser": "@typescript-eslint/parser",
   "env": {
@@ -17,7 +13,7 @@
     "sourceType": "module",
     "project": "./tsconfig.json",
     "ecmaFeatures": {
-      "jsx": true
+      "jsx": false
     }
   },
   "rules": {
@@ -28,18 +24,10 @@
         "allow": ["warn", "error", "info"]
       }
     ],
-    "react/prop-types": "off",
-    "react/display-name": "off",
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/adjacent-overload-signatures": "error"
   },
   "globals": {
     "loadImage": true
-  },
-  "settings": {
-    "react": {
-      "pragma": "React",
-      "version": "16.0.0"
-    }
   }
 }

@@ -1,11 +1,11 @@
-import { Order } from "../@types";
-import {parseOrders} from './parseOrders'
+import {Order} from '../@types';
+import {parseOrders} from './parseOrders';
 
 /**
  * parseSort はソート条件を取得する
  * @param {any} query クエリーパラメータを分解する
  * @return {Order[]}
-*/
+ */
 export const parseSort = (query: any): Order[] => {
   const queryStr: any = query;
 

@@ -1,10 +1,10 @@
-import { Pager } from "../@types";
+import {Pager} from '../@types';
 
 /**
  * getPageCount は ページの総数を返します
- * @param {Pager<T, U>} pager 
+ * @param {Pager<T, U>} pager
  * @return {number} ページの総数を返します
-*/
+ */
 export const getPageCount = <T, U>(pager: Pager<T, U>): number => {
   if (pager.limit === 0) {
     return 0;

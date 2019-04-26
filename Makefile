@@ -5,4 +5,9 @@ tsc:
 	./node_modules/typescript/bin/tsc --noemit
 
 lint:
-	./node_modules/.bin/eslint src/ --ext .ts,.tsx,.js,.jsx
+	./node_modules/.bin/eslint src/ --ext .ts,.tsx,.js,.jsx,.json
+
+
+# build用途
+lib-build:
+	yarn run rollup --config

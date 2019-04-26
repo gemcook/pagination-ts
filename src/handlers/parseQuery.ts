@@ -1,12 +1,12 @@
-import { Query } from "../@types";
-import _ from 'lodash'
-import { parseSort } from "./";
+import {Query} from '../@types';
+import _ from 'lodash';
+import {parseSort} from './parseSort';
 
-/** 
+/**
  * parseQuery は クエリーパラメータを分解する
  * @param {any} query クエリーパラメータ
  * @return {Query}
-*/
+ */
 export const parseQuery = (query: any): Query => {
   const p: Query = {
     limit: 30,
