@@ -1,11 +1,5 @@
 import {Fetcher, Setting, Pager} from '../@types';
 
-/**
- * newPager は pagerの設定をする
- * @param {Fetcher<T, U>} fetcher fetcher関数を設定する
- * @param {Setting<T>} setting
- * @return {Pager} pagerを返す
- */
 export const newPager = <T, U>(
   fetcher: Fetcher<T, U>,
   setting: Setting<T>

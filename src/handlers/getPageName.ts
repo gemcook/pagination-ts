@@ -1,10 +1,5 @@
 import _ from 'lodash';
 
-/**
- * getPageName returns named page
- * @param {number} index インデックス
- * @return {string}
- */
 export const getPageName = (index: number): string => {
   switch (index) {
     case 0:

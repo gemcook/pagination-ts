@@ -1,23 +1,19 @@
-import {Request, Response, NextFunction} from 'express';
+import {Request, Response} from 'express';
 import {fruitsService} from '../service';
 
-/** 
- * ページネーション用ハンドラ_フルーツを取得します
- * @param {Request} req リクエスト引数
- * @param {Response} res レスポンス引数
- * @param {NextFunction} next
-*/
-export const getFruitsPaging = (req: Request, res: Response, next: NextFunction) => {
+export const getFruitsPagination = async (req: Request, res: Response) => {
   const service = fruitsService;
-  const {totalCount, totalPages, pages} = service.getPaging(req.query);
+  const data = await service.getPagination(req.query);
 
-  res.setHeader('X-Total-Count', totalCount);
-  res.setHeader('X-Total-Pages', totalPages);
-  
-  res.json({pages});
-}
+  res.json(data);
+  // const {totalCount, totalPages, pages} = service.getPagination(req.query);
 
-export const fruitsHandler = {
-  getFruitsPaging
+  // res.setHeader('X-Total-Count', totalCount);
+  // res.setHeader('X-Total-Pages', totalPages);
+
+  // res.json({pages});
 };
 
+export const fruitsHandler = {
+  getFruitsPagination,
+};

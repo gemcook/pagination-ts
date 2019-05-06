@@ -3,12 +3,6 @@ import {startPageIndex} from './startPageIndex';
 import {lastPageIndex} from './lastPageIndex';
 import {getPageName} from './getPageName';
 
-/**
- * formatResponse ページネーション用responseを作成する
- * @param {Array<U>} first ページの最初の要素
- * @param {Array<U>} activeAndSides ページの中間要素
- * @param {Array<U>} last ページの最後の要素
- */
 export const formatResponse = <T, U>(
   first: Array<U>,
   activeAndSides: Array<U>,

@@ -5,10 +5,6 @@ import {getPageCount} from './getPageCount';
 import {startPageIndex} from './startPageIndex';
 import {lastPageIndex} from './lastPageIndex';
 
-/**
- * getPages gets formated paging response
- *
- */
 export const getPages = <T, U>(pager: Pager<T, U>): any => {
   const count: number = pager.fetcher.count(pager.condition);
   pager.totalCount = count;
