@@ -1,5 +1,5 @@
 import {Pager} from '../@types';
-import {startPageIndex} from './startPageIndex';
+import {startPageIndex} from './pageIndex';
 
 export const getActiveAndSidesLimit = <T, U>(
   pager: Pager<T, U>

@@ -1,7 +1,7 @@
 import {Order} from '../@types';
 
 export const parseOrders = (sort: string): Order[] => {
-  if (sort !== '') {
+  if (sort === '') {
     return [];
   }
 

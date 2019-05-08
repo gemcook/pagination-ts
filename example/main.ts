@@ -1,6 +1,6 @@
 import express from 'express';
 import logger from 'morgan';
-import {Request, Response} from 'express';
+import {Request, Response, NextFunction} from 'express';
 import {fruitsRoutes} from './routes';
 
 const app = express();
@@ -21,10 +21,11 @@ app.use((req: Request, res: Response) => {
   });
 });
 
-app.use((err: Error, req: Request, res: Response) => {
+// eslint-disable-next-line
+app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).json({
     status: 500,
-    error: 'Internal Server Error',
+    error: error.message,
   });
 });
 

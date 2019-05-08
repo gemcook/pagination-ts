@@ -1,79 +1,96 @@
-// import {fetcher, fruitCondition, order} from '../types';
 import {model} from '../model';
-import {parseQuery} from '../../lib';
+import {Op} from 'sequelize';
+import {parseQuery, fetch, Fetcher, Order} from '@gemcook/pagination-ts';
+import {Fruits, FruitCondition} from '../@types';
+import _ from 'lodash';
 
 const getPagination = async (query: any) => {
-  console.info(query);
   const pagination = parseQuery(query);
+  const cond = parseFruitCondition(query);
 
-  const data = await model.Fruit.findAll();
-  return {data, pagination};
+  try {
+    const data = await fetch(fruitsFetch, {
+      limit: pagination.limit,
+      page: pagination.page,
+      cond,
+      orders: pagination.sort,
+    });
+
+    return data;
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
-// const getPaging = (query: any) => {
-//   const pagination = Pagination;
-//   const p = pagination.parseQuery(query);
+// 条件を取得する
+const parseFruitCondition = (query: any) => {
+  if (query.hasOwnProperty('price_range')) {
+    const priceStr: string = query['price_range'];
+    if (priceStr !== '') {
+      const prices: any = priceStr.split(',');
+      const low: number = _.parseInt(prices[0]);
+      const high: number = _.parseInt(prices[1]);
 
-//   // 条件を作成
-//   const parseFruitCondition = (query: any) => {
-//     if (query.hasOwnProperty('price_range')) {
-//       const priceStr: string = query['price_range'];
-//       if (priceStr !== '') {
-//         const prices: any = priceStr.split(',');
-//         const low: number = parseInt(prices[0]);
-//         const high: number = parseInt(prices[1]);
+      return {low, high};
+    }
+  }
 
-//         return {low, high};
-//       }
-//     }
-//     const low = -1 << 31;
-//     const high = 1 << (31 - 1);
-//     return {low, high};
-//   };
-//   const cond = parseFruitCondition(query);
+  const low = -1 << 31;
+  const high = 1 << (31 - 1);
+  return {low, high};
+};
 
-//   // fetcher関数を作成する
-//   const fruitsFetch: fetcher<fruitCondition, Fruit> = {
-//     count: (cond: fruitCondition): number => {
-//       const result = Fruits.filter(fruit => {
-//         return fruit.Price >= cond.low && fruit.Price <= cond.high;
-//       });
-//       return result.length;
-//     },
+// Fetcher関数を作成する
+const fruitsFetch: Fetcher<FruitCondition, Fruits> = {
+  count: async (cond: FruitCondition): Promise<number> => {
+    try {
+      const count: number = await model.Fruit.count({
+        where: {
+          price: {
+            [Op.between]: [cond.low, cond.high],
+          },
+        },
+      });
 
-//     fetchPage: (
-//       cond: fruitCondition,
-//       limit: number,
-//       offset: number,
-//       orders: order[]
-//     ): Array<Fruit> => {
-//       const fruits = Fruits.filter(fruit => {
-//         return fruit.Price >= cond.low && fruit.Price <= cond.high;
-//       });
-//       let toIndex = offset + limit;
-//       if (toIndex > fruits.length) {
-//         toIndex = fruits.length;
-//       }
-//       fruits.sort((a, b) => {
-//         if (a.Price < b.Price) return -1;
-//         if (a.Price > b.Price) return 1;
-//         return 0;
-//       });
-//       const newFruits = fruits.slice(offset, toIndex);
+      return count;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+  fetchPage: async (
+    cond: FruitCondition,
+    limit: number,
+    offset: number,
+    order: Order[]
+  ): Promise<Array<Fruits>> => {
+    // Orderをsequelizeのorder文にあう形に変換する
+    const newOrder: any = [];
+    for (let i = 0; i < order.length; i++) {
+      newOrder.push([order[i].columnName, order[i].direction]);
+    }
 
-//       return newFruits;
-//     },
-//   };
+    try {
+      const fruits: Fruits[] = await model.Fruit.findAll({
+        where: {
+          price: {
+            [Op.between]: [cond.low, cond.high],
+          },
+        },
+        order: newOrder,
+      });
 
-//   const data = pagination.fetch(fruitsFetch, {
-//     limit: p.limit,
-//     page: p.page,
-//     cond,
-//     orders: p.sort,
-//   });
+      let toIndex: number = offset + limit;
+      if (toIndex > fruits.length) {
+        toIndex = fruits.length;
+      }
+      const newFruits: Fruits[] = fruits.slice(offset, toIndex);
 
-//   return data;
-// };
+      return newFruits;
+    } catch (error) {
+      throw new Error();
+    }
+  },
+};
 
 export const fruitsRepository = {
   getPagination,

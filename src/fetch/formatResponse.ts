@@ -1,7 +1,6 @@
 import {Pager} from '../@types';
-import {startPageIndex} from './startPageIndex';
-import {lastPageIndex} from './lastPageIndex';
-import {getPageName} from './getPageName';
+import {startPageIndex, lastPageIndex} from './pageIndex';
+import _ from 'lodash';
 
 export const formatResponse = <T, U>(
   first: Array<U>,
@@ -53,17 +52,37 @@ export const formatResponse = <T, U>(
   // name pages
   const responsePage: any = [];
   responsePage['active'] = active;
-  responsePage['first'] = active;
+  responsePage['first'] = first;
   responsePage['last'] = last;
 
   for (let i = 0; i < sides.length; i++) {
     const pageName: string = getPageName(i);
     responsePage[pageName] = sides[i];
+
+    if (sides[i].length === 0) {
+      responsePage[pageName] = null;
+    }
   }
 
+  // 最後の値が存在しないとき
   if (last.length === 0) {
-    responsePage['last'] = responsePage['before_distant'];
+    responsePage['last'] = responsePage['active'];
   }
 
   return responsePage;
+};
+
+export const getPageName = (index: number): string => {
+  switch (index) {
+    case 0:
+      return 'before_distant';
+    case 1:
+      return 'before_near';
+    case 2:
+      return 'after_near';
+    case 3:
+      return 'after_distant';
+    default:
+      return _.toString(index);
+  }
 };

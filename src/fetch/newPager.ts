@@ -22,6 +22,7 @@ export const newPager = <T, U>(
     if (setting.page < 1) {
       return null;
     }
+
     pager.page = setting.page;
   }
 

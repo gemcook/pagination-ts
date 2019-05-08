@@ -1,6 +1,12 @@
-export {Fetcher} from './fetcher';
+// Parse
 export {Order} from './order';
 export {Query} from './query';
+
+// Fetch
+export {FetchResponse} from './fetchResponse';
+export {Fetcher} from './fetcher';
 export {Setting} from './setting';
 export {Pager} from './pager';
-export {Pagination} from './pagination';
+
+// Handler
+export {parseQuery, fetch} from './handler';
