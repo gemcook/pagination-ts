@@ -1,86 +1,97 @@
-import {Fruits} from '../data';
-import {Pagination} from '../../src';
-import {fetcher, fruitCondition, order} from '../types';
-import {Fruit} from '../model';
+import {model} from '../model';
+import {Op} from 'sequelize';
+import {parseQuery, fetch, Fetcher, Order} from '@gemcook/pagination-ts';
+import {Fruits, FruitCondition} from '../@types';
+import _ from 'lodash';
 
-/** 
- * 全件取得
-*/
-const getAll = () => {
-  return Fruits;
-};
-
-/**
- * ページネーション用レポジトリ_フルーツを取得します
- * @param {query} クエリーパラメータ
-*/
-const getPaging = (query: any) => {
-  const pagination = Pagination;
-  const p = pagination.parseQuery(query);
-
-  // 条件を作成
-  const parseFruitCondition = (query: any) => {
-    if (query.hasOwnProperty('price_range')) {
-      const priceStr: string = query['price_range'];
-      if (priceStr !== '') {
-        const prices: any = priceStr.split(',');
-        const low: number = parseInt(prices[0]);
-        const high: number = parseInt(prices[1]);
-
-        return {low, high};
-      }
-    }
-    const low = -1 << 31;
-    const high = 1 << 31 - 1;
-    return {low, high};
-  };
+const getPagination = async (query: any) => {
+  const pagination = parseQuery(query);
   const cond = parseFruitCondition(query);
 
-  // fetcher関数を作成する
-  const fruitsFetch: fetcher<fruitCondition, Fruit> = {
-    count: (cond: fruitCondition): number => {
-      const result = Fruits.filter(fruit => {
-        return fruit.Price >= cond.low && fruit.Price <= cond.high;
+  try {
+    const data = await fetch(fruitsFetch, {
+      limit: pagination.limit,
+      page: pagination.page,
+      cond,
+      orders: pagination.sort,
+    });
+
+    return data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+// 条件を取得する
+const parseFruitCondition = (query: any) => {
+  if (query.hasOwnProperty('price_range')) {
+    const priceStr: string = query['price_range'];
+    if (priceStr !== '') {
+      const prices: any = priceStr.split(',');
+      const low: number = _.parseInt(prices[0]);
+      const high: number = _.parseInt(prices[1]);
+
+      return {low, high};
+    }
+  }
+
+  const low = -1 << 31;
+  const high = 1 << (31 - 1);
+  return {low, high};
+};
+
+// Fetcher関数を作成する
+const fruitsFetch: Fetcher<FruitCondition, Fruits> = {
+  count: async (cond: FruitCondition): Promise<number> => {
+    try {
+      const count: number = await model.Fruit.count({
+        where: {
+          price: {
+            [Op.between]: [cond.low, cond.high],
+          },
+        },
       });
-      return result.length;
-    },
-    
-    fetchPage: (
-      cond: fruitCondition,
-      limit: number,
-      offset: number,
-      orders: order[],
-    ): Array<Fruit> => {
-      const fruits = Fruits.filter(fruit => {
-        return fruit.Price >= cond.low && fruit.Price <= cond.high;
+
+      return count;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+  fetchPage: async (
+    cond: FruitCondition,
+    limit: number,
+    offset: number,
+    order: Order[]
+  ): Promise<Array<Fruits>> => {
+    // Orderをsequelizeのorder文にあう形に変換する
+    const newOrder: any = [];
+    for (let i = 0; i < order.length; i++) {
+      newOrder.push([order[i].columnName, order[i].direction]);
+    }
+
+    try {
+      const fruits: Fruits[] = await model.Fruit.findAll({
+        where: {
+          price: {
+            [Op.between]: [cond.low, cond.high],
+          },
+        },
+        order: newOrder,
       });
-      let toIndex = offset + limit;
+
+      let toIndex: number = offset + limit;
       if (toIndex > fruits.length) {
         toIndex = fruits.length;
       }
-      fruits.sort((a, b) => {
-        if (a.Price < b.Price) return -1;
-        if (a.Price > b.Price) return 1;
-        return 0;
-      });
-      const newFruits = fruits.slice(offset, toIndex);
+      const newFruits: Fruits[] = fruits.slice(offset, toIndex);
 
       return newFruits;
+    } catch (error) {
+      throw new Error();
     }
-  };
-
-  const data = pagination.fetch(fruitsFetch, {
-    limit: p.limit,
-    page: p.page,
-    cond,
-    orders: p.sort,
-  });
-  
-  return data;
+  },
 };
 
-
 export const fruitsRepository = {
-  getAll,
-  getPaging,
+  getPagination,
 };

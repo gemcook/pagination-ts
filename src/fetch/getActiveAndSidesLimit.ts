@@ -1,11 +1,6 @@
 import {Pager} from '../@types';
-import {startPageIndex} from './startPageIndex';
+import {startPageIndex} from './pageIndex';
 
-/**
- * getActiveAndSidesLimit gets records count and offset of page chunk
- * @param {Pager<T, U>} pager pagerを渡す
- * @return {number}: limitとoffsetを返す
- */
 export const getActiveAndSidesLimit = <T, U>(
   pager: Pager<T, U>
 ): {limit: number; offset: number} => {

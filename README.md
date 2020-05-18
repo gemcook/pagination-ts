@@ -1,53 +1,76 @@
 # pagination-ts
 
-## Example
 
-```
-make start
-```
+## Usage
 
-# Usage
+自分で作成するもの
 
-## fetcher type
+- データの取得条件を作成する関数
+- Fetcher関数を作成
 
-fetcher typeを作成する必要があります
+### Example
 
 ```js
-type order = {
-  direction: string;
-  columnName: string;
-};
+import {parseQuery, fetch, Fetcher, Order} from '@gemcook/pagination-ts';
 
-type fetcher<T, U> = {
-  count(cond: T): number;
-  fetchPage(
-    cond: T,
-    limit: number,
-    offset: number,
-    orders: order[],
-  ): Array<U>;
-};
-```
-
-# Example
-
-```js
-function parseFruitCondition(query) {
-  // 
+type FruitCondition = {
+  PriceLowerLimit: number;
+  PriceHigherLimit: number;
 }
 
-const pagination = Pagination;
-const p = pagintion.parseQuery(req.query);
-const cond = parseFruitCondition(req.query)
+type Fruits = {
+  id: number;
+  name: string;
+  price: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
-const {totalCount, totalPages, pages} = pagination.fetch(fetcher, {
-  limit: p.limit,
-  page: p.page,
-  cond,
-  orders: p.sort,
-});
+// フルーツの取得条件を作成する関数
+const parseFruitsCondition = (query: any) => {
+  // 何らかの処理
+}
 
-res.setHeader('X-Total-Count', totalCount);
-res.setHeader('X-Total-Pages', totalPages);
-res.json({pages});
+// Fetcher関数
+const fruitsFetch: Fetcher<FruitCondition, Fruits> ={
+  count: async (cond: FruitCondition): Promise<number> = {
+    // 何らかの処理
+  },
+  fetchPage: async (
+    cond: FruitCondition,
+    limit: number,
+    offset: number, 
+    order: Order[],
+  ): Promise<Array<Fruits>> => {
+    // 何らかの処理
+  }
+}
+
+const getPagination = async (query: any) => {
+  const pagination = parseQuery(query);
+  const cond = parseFruitsCondition(query);
+
+  try {
+    const data = await fetch(fruitsFetch, {
+      limit: pagination.limit,
+      page: pagination.page,
+      cond,
+      orders: pagination.sort,
+    });
+
+    return data;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+```
+
+
+## Demo
+
+```
+docker-compose up -d
+make lib-build
+yarn add file:"./" # 作成したライブラリ自身を読み込む、ライブラリpublish後、削除
+make start
 ```

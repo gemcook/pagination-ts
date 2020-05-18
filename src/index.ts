@@ -1,6 +1,2 @@
-import {parseQuery, fetch} from './handlers';
-
-export const Pagination = {
-  parseQuery,
-  fetch,
-};
+export * from './parse';
+export * from './fetch';

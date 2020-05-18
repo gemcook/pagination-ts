@@ -3,6 +3,6 @@ import {fruitsHandler} from '../handler';
 
 const router = express.Router();
 
-router.get('/', fruitsHandler.getFruitsPaging);
+router.get('/', fruitsHandler.getFruitsPagination);
 
 export default router;

@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es2016",
-    "lib": ["es2016"],
+    "target": "es6",
+    "lib": ["es6"],
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -15,10 +15,15 @@
     "noEmit": true,
     "jsx": "preserve",
     "typeRoots": ["./node_modules/@types", "./src/@types"],
-    "outDir": "dist",
+    "outDir": "./dist",
     "types": ["node"],
-    "declaration": true
+    "declaration": true,
+    "strictPropertyInitialization": false
   },
-  "include": ["src"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
